@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+            <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"></com.youth.banner.Banner>
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:descendantFocusability="blocksDescendants"
+                   >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/xrv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+                <ImageView
+                    android:layout_below="@id/xrv"
+                    android:layout_marginTop="-70dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/timg"
+                    android:id="@+id/iimg"
+                    />
+
+                <com.jcodecraeer.xrecyclerview.XRecyclerView
+                    android:layout_below="@+id/iimg"
+                    android:layout_marginTop="-80dp"
+                    android:id="@+id/recy_tuijian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+               </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

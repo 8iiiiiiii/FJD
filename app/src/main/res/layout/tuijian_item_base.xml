@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/tuijian_image"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tuijian_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tuijian_title"
+        android:layout_alignStart="@+id/tuijian_title"
+        android:layout_below="@+id/tuijian_title"
+        android:text="TextView"
+        android:textColor="#ffc125"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tuijian_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tuijian_image"
+        android:layout_alignStart="@+id/tuijian_image"
+        android:layout_below="@+id/tuijian_image"
+        android:layout_marginTop="12dp"
+        android:text="TextView" />
+</RelativeLayout>
