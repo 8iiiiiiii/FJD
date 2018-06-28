@@ -131,19 +131,17 @@ public class Fragment03 extends Fragment implements View.OnClickListener {
         }
     }
 
-    //查询购物车
+       //查询购物车
     private void getQueryDate() {
         int uid = getActivity().getSharedPreferences("Login", MODE_PRIVATE).getInt("uid", 0);
+        Log.i("TTTTTTTTTT", "query_url: " + url.query_shopping + "?uid=" + uid);
         manager.asynStringByDATA(url.query_shopping + "?uid=" + uid, new OkhttpManager.Fun1() {
             @Override
             public void onResponse(String result) {
-                QueryBean bean = new Gson().fromJson(result, QueryBean.class);
-                if (bean == null) {
-                    queryAdapter = null;
-                    mRv.setAdapter(queryAdapter);
-                    mRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-                } else {
+                if (!result.equals("null")) {
+                    QueryBean bean = new Gson().fromJson(result, QueryBean.class);
                     List<QueryBean.DataBean> beans = bean.getData();
+                    Log.e("TTTTTTTTTTTTT", "getQueryDate: " + result);
                     if (beans != null) {
                         //用户总价
                         int p = 0;
@@ -152,7 +150,7 @@ public class Fragment03 extends Fragment implements View.OnClickListener {
                             for (int j = 0; j < list.size(); j++) {
                                 int selected = list.get(j).getSelected();
                                 if (selected == 1) {
-                                    int price = list.get(j).getPrice();
+                                    int price = (int) list.get(j).getPrice();
                                     int num = list.get(j).getNum();
                                     int i1 = price * num;
                                     p += i1;
@@ -170,33 +168,38 @@ public class Fragment03 extends Fragment implements View.OnClickListener {
                                 setUpdate(uid, sellerid, pid, selected, num);
                             }
                         });
-                    }
-                }
-                //长按删除商品
-                queryAdapter.setOnItemLongClickListener(new QueryAdapter.OnItemLongClickListener() {
-                    @Override
-                    public void onItemClick(final int position, final List<QueryBean.DataBean.ListBean> slist) {
-                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                        builder.setMessage("确认删除吗？")
-                                .setNegativeButton("取消", null)
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Log.i("test", "下标是； " + position);
-                                        final int pid = slist.get(position).getPid();
-                                        int uid = getActivity().getSharedPreferences("Login", MODE_PRIVATE).getInt("uid", 0);
-                                        String drop_shop = InterFaceUrl.delete_shopping + "?uid=" + uid + "&pid=" + pid;
-                                        Log.i("test", "删除购物车的地址: " + drop_shop);
-                                        manager.asynStringByDATA(drop_shop, new OkhttpManager.Fun1() {
+                        //长按删除商品
+                        queryAdapter.setOnItemLongClickListener(new QueryAdapter.OnItemLongClickListener() {
+                            @Override
+                            public void onItemClick(final int position, final List<QueryBean.DataBean.ListBean> slist) {
+                                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                builder.setMessage("确认删除吗？")
+                                        .setNegativeButton("取消", null)
+                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onResponse(String result) {
-                                                getQueryDate();
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Log.i("test", "下标是； " + position);
+                                                final int pid = slist.get(position).getPid();
+                                                int uid = getActivity().getSharedPreferences("Login", MODE_PRIVATE).getInt("uid", 0);
+                                                String drop_shop = InterFaceUrl.delete_shopping + "?uid=" + uid + "&pid=" + pid;
+                                                Log.i("test", "删除购物车的地址: " + drop_shop);
+                                                manager.asynStringByDATA(drop_shop, new OkhttpManager.Fun1() {
+                                                    @Override
+                                                    public void onResponse(String result) {
+                                                        getQueryDate();
+                                                    }
+                                                });
                                             }
-                                        });
-                                    }
-                                }).show();
+                                        }).show();
+                            }
+                        });
                     }
-                });
+                } else {
+                    queryAdapter = null;
+                    mRv.setAdapter(queryAdapter);
+                    mRv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                }
+
             }
 
             //更新购物车的方法
@@ -215,7 +218,6 @@ public class Fragment03 extends Fragment implements View.OnClickListener {
             }
         });
     }
-
 
     //获取控件Id
     private void initView(View v) {
